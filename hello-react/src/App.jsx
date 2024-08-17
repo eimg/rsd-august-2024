@@ -2,7 +2,11 @@ import { useState, useRef } from "react";
 import Item from "./Item";
 import Header from "./Header";
 
+import { useAppContext } from "./ThemedApp";
+
 export default function App() {
+	const { mode } = useAppContext();
+
 	const inputRef = useRef();
 
 	const [showForm, setShowForm] = useState(false);
@@ -24,12 +28,15 @@ export default function App() {
 
 	return (
 		<div>
-			<Header showForm={showForm} setShowForm={setShowForm} />
+			<Header
+				showForm={showForm}
+				setShowForm={setShowForm}
+			/>
 			<form
-				style={{ 
-                    marginBottom: 20, 
-                    display: showForm ? "flex" : "none", 
-                }}
+				style={{
+					marginBottom: 20,
+					display: showForm ? "flex" : "none",
+				}}
 				onSubmit={e => {
 					e.preventDefault();
 					add(inputRef.current.value);
@@ -42,7 +49,9 @@ export default function App() {
 				/>
 				<button>Add</button>
 			</form>
-			<ul className="list">
+			<ul
+				className="list"
+				style={{ borderColor: mode == "dark" ? "#555" : "#ccc" }}>
 				{data.map(item => {
 					return (
 						<Item

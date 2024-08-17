@@ -1,21 +1,35 @@
+import { useAppContext } from "./ThemedApp";
+
+import {
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+    Box,
+} from "@mui/material";
+
+import {
+    Add as AddIcon,
+    LightMode as LightModeIcon,
+    DarkMode as DarkModeIcon,
+} from "@mui/icons-material";
+
 export default function Header({ showForm, setShowForm }) {
+    const { mode, setMode } = useAppContext();
+
 	return (
-		<div
-			style={{
-				display: "flex",
-				justifyContent: "space-between",
-				alignItems: "center",
-			}}>
-			<h1>Hello React</h1>
-			<button
-				style={{
-					width: 32,
-					border: "0 none",
-					backgroundColor: showForm ? "red" : "green",
-				}}
-				onClick={() => setShowForm(!showForm)}>
-				{showForm ? "-" : "+"}
-			</button>
-		</div>
+		<AppBar position="static">
+			<Toolbar>
+				<Typography sx={{ flexGrow: 1 }}>App</Typography>
+				<Box>
+					<IconButton color="inherit">
+						<AddIcon />
+					</IconButton>
+					<IconButton color="inherit" edge="end">
+						<LightModeIcon />
+					</IconButton>
+				</Box>
+			</Toolbar>
+		</AppBar>
 	);
 }
