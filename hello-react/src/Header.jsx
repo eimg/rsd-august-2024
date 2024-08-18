@@ -22,7 +22,7 @@ export default function Header({ showForm, setShowForm }) {
 			<Toolbar>
 				<Typography sx={{ flexGrow: 1 }}>App</Typography>
 				<Box>
-					<IconButton color="inherit">
+					<IconButton color="inherit" onClick={() => setShowForm(!showForm)}>
 						<AddIcon />
 					</IconButton>
 					<IconButton color="inherit" edge="end">

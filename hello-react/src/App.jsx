@@ -2,6 +2,17 @@ import { useState, useRef } from "react";
 import Item from "./Item";
 import Header from "./Header";
 
+import {
+	List,
+	Box,
+	Container,
+	OutlinedInput,
+	InputAdornment,
+	IconButton,
+} from "@mui/material";
+
+import { Add as AddIcon } from "@mui/icons-material";
+
 import { useAppContext } from "./ThemedApp";
 
 export default function App() {
@@ -9,7 +20,7 @@ export default function App() {
 
 	const inputRef = useRef();
 
-	const [showForm, setShowForm] = useState(false);
+	const [showForm, setShowForm] = useState(true);
 
 	const [data, setData] = useState([
 		{ id: 3, content: "Apple" },
@@ -27,41 +38,46 @@ export default function App() {
 	};
 
 	return (
-		<div>
+		<Box>
 			<Header
 				showForm={showForm}
 				setShowForm={setShowForm}
 			/>
-			<form
-				style={{
-					marginBottom: 20,
-					display: showForm ? "flex" : "none",
-				}}
-				onSubmit={e => {
-					e.preventDefault();
-					add(inputRef.current.value);
-					e.currentTarget.reset();
-				}}>
-				<input
-					style={{ flexGrow: 1 }}
-					type="text"
-					ref={inputRef}
-				/>
-				<button>Add</button>
-			</form>
-			<ul
-				className="list"
-				style={{ borderColor: mode == "dark" ? "#555" : "#ccc" }}>
-				{data.map(item => {
-					return (
-						<Item
-							key={item.id}
-							item={item}
-							remove={remove}
+			<Container
+				maxWidth="sm"
+				sx={{ mt: 2 }}>
+				{showForm && (
+					<form
+						onSubmit={e => {
+							e.preventDefault();
+							add(inputRef.current.value);
+							e.currentTarget.reset();
+						}}>
+						<OutlinedInput
+							fullWidth
+							inputRef={inputRef}
+							endAdornment={
+								<InputAdornment position="end">
+									<IconButton type="submit">
+										<AddIcon />
+									</IconButton>
+								</InputAdornment>
+							}
 						/>
-					);
-				})}
-			</ul>
-		</div>
+					</form>
+				)}
+				<List>
+					{data.map(item => {
+						return (
+							<Item
+								key={item.id}
+								item={item}
+								remove={remove}
+							/>
+						);
+					})}
+				</List>
+			</Container>
+		</Box>
 	);
 }
