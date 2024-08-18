@@ -22,11 +22,18 @@ export default function Header({ showForm, setShowForm }) {
 			<Toolbar>
 				<Typography sx={{ flexGrow: 1 }}>App</Typography>
 				<Box>
-					<IconButton color="inherit" onClick={() => setShowForm(!showForm)}>
+					<IconButton
+						color="inherit"
+						onClick={() => setShowForm(!showForm)}>
 						<AddIcon />
 					</IconButton>
-					<IconButton color="inherit" edge="end">
-						<LightModeIcon />
+					<IconButton
+						color="inherit"
+						edge="end"
+						onClick={() => {
+							mode == "dark" ? setMode("light") : setMode("dark");
+						}}>
+						{mode == "dark" ? <LightModeIcon /> : <DarkModeIcon />}
 					</IconButton>
 				</Box>
 			</Toolbar>
