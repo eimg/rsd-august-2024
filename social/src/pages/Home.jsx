@@ -1,14 +1,13 @@
 import { useState } from "react";
 
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 
-import Header from "./components/Header";
-import Form from "./components/Form";
-import Item from "./components/Item";
+import Form from "../components/Form";
+import Item from "../components/Item";
 
-import { useApp } from "./ThemedApp";
+import { useApp } from "../ThemedApp";
 
-export default function App() {
+export default function Home() {
     const { showForm, setShowForm } = useApp();
 
 	const [data, setData] = useState([
@@ -28,23 +27,17 @@ export default function App() {
 
 	return (
 		<Box>
-			<Header />
+            {showForm && <Form add={add} />}
 
-			<Container
-				maxWidth="sm"
-				sx={{ mt: 4 }}>
-				{showForm && <Form add={add} />}
-
-				{data.map(item => {
-					return (
-						<Item
-							key={item.id}
-							item={item}
-							remove={remove}
-						/>
-					);
-				})}
-			</Container>
+            {data.map(item => {
+                return (
+                    <Item
+                        key={item.id}
+                        item={item}
+                        remove={remove}
+                    />
+                );
+            })}
 		</Box>
 	);
 }

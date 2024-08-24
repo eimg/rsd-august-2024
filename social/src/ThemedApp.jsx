@@ -1,13 +1,16 @@
 import { useState, createContext, useContext, useMemo } from "react";
 
 import {
+    Container,
 	CssBaseline,
 	ThemeProvider,
 	createTheme,
 } from "@mui/material";
 
-import App from "./App";
+import { Outlet } from "react-router-dom";
+
 import AppDrawer from "./components/AppDrawer";
+import Header from "./components/Header";
 
 import { grey, teal } from "@mui/material/colors";
 
@@ -46,7 +49,12 @@ export default function ThemedApp() {
 					mode,
 					setMode,
 				}}>
-				<App />
+				<Header />
+
+				<Container maxWidth="sm" sx={{ mt: 4 }}>
+					<Outlet />
+				</Container>
+
 				<AppDrawer />
 				<CssBaseline />
 			</AppContext.Provider>
