@@ -1,13 +1,25 @@
 const express = require("express");
 const app = express();
 
-app.get("/contents", function(req, res) {
-    res.json({ msg: 'API Content' });
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
+
+app.get("/posts", async function(req, res) {
+    const data = await prisma.post.findMany({
+        include: { user: true }
+    });
+
+    res.json(data);
 });
 
-app.get("/contents/:id", function(req, res) {
+app.get("/posts/:id", async function(req, res) {
     const { id } = req.params;
-    res.json({ msg: `Contents Single ${id}` });
+    const data = await prisma.post.findFirst({
+        where: { id: Number(id) },
+        include: { user: true, }
+    });
+
+    res.json(data);
 });
 
 app.listen(8080, () => {
