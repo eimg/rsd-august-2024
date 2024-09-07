@@ -32,7 +32,7 @@ export default function Item({ item, remove }) {
 						<Typography
 							variant="caption"
 							sx={{ color: green[500] }}>
-							A few second ago
+							{item.created}
 						</Typography>
 					</Box>
 					<IconButton
@@ -59,7 +59,7 @@ export default function Item({ item, remove }) {
 						fontSize="12"
 						color="info"
 					/>
-					<Typography variant="caption">{item.name}</Typography>
+					<Typography variant="caption">{item.user.name}</Typography>
 				</Box>
 			</CardContent>
 		</Card>

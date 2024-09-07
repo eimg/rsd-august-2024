@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Box } from "@mui/material";
 
@@ -7,16 +7,31 @@ import Item from "../components/Item";
 
 import { useApp } from "../ThemedApp";
 
-export default function Home() {
-    const { showForm, setShowForm } = useApp();
+const api = "http://localhost:8080/posts";
 
-	const [data, setData] = useState([
-		{ id: 3, content: "Yay, interesting.", name: "Chris" },
-		{ id: 2, content: "React is fun.", name: "Bob" },
-		{ id: 1, content: "Hello, World!", name: "Alice" },
-	]);
+export default function Home() {
+	const { showForm, setShowForm } = useApp();
+	const [data, setData] = useState([]);
+
+	useEffect(() => {
+        fetch(api).then(async res => {
+			const json = await res.json();
+			setData(json);
+		});
+
+		// fetch(api)
+		// 	.then(res => res.json())
+		// 	.then(json => setData(json));
+
+        // (async () => {
+        //     const res = await fetch(api);
+        //     const json = await res.json();
+        //     setData(json);
+        // })();
+	}, []);
 
 	const remove = id => {
+        fetch(`${api}/${id}`, { method: 'DELETE' });
 		setData(data.filter(item => item.id !== id));
 	};
 
@@ -27,17 +42,17 @@ export default function Home() {
 
 	return (
 		<Box>
-            {showForm && <Form add={add} />}
+			{showForm && <Form add={add} />}
 
-            {data.map(item => {
-                return (
-                    <Item
-                        key={item.id}
-                        item={item}
-                        remove={remove}
-                    />
-                );
-            })}
+			{data.map(item => {
+				return (
+					<Item
+						key={item.id}
+						item={item}
+						remove={remove}
+					/>
+				);
+			})}
 		</Box>
 	);
 }
