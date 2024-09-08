@@ -17,16 +17,25 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Profile from "./pages/Profile.jsx";
 import ErrorPage from "./ErrorPage.jsx";
+import Post from "./pages/Post.jsx";
+
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <ThemedApp />,
-        errorElement: <ErrorPage />,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "/",
 				element: <Home />,
+			},
+			{
+				path: "/post/:id",
+				element: <Post />,
 			},
 			{
 				path: "/login",
@@ -46,6 +55,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
-		<RouterProvider router={router} />
+		<QueryClientProvider client={queryClient}>
+			<RouterProvider router={router} />
+		</QueryClientProvider>
 	</React.StrictMode>
 );

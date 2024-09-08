@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 import { Box } from "@mui/material";
 
 import Form from "../components/Form";
@@ -7,38 +5,44 @@ import Item from "../components/Item";
 
 import { useApp } from "../ThemedApp";
 
+import { useQuery } from "react-query";
+
 const api = "http://localhost:8080/posts";
 
+async function fetchPosts() {
+    const res = await fetch(api);
+    return res.json();
+}
+
 export default function Home() {
-	const { showForm, setShowForm } = useApp();
-	const [data, setData] = useState([]);
-
-	useEffect(() => {
-        fetch(api).then(async res => {
-			const json = await res.json();
-			setData(json);
-		});
-
-		// fetch(api)
-		// 	.then(res => res.json())
-		// 	.then(json => setData(json));
-
-        // (async () => {
-        //     const res = await fetch(api);
-        //     const json = await res.json();
-        //     setData(json);
-        // })();
-	}, []);
+	const { showForm } = useApp();
+	const { data, error, isError, isLoading } = useQuery("posts", fetchPosts);
 
 	const remove = id => {
         fetch(`${api}/${id}`, { method: 'DELETE' });
 		setData(data.filter(item => item.id !== id));
 	};
 
-	const add = (content, name) => {
-		const id = data[0].id + 1;
-		setData([{ id, content, name }, ...data]);
+	const add = content => {
+		fetch(api, {
+            method: 'POST',
+            body: JSON.stringify({ content }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(async res => {
+            const item = await res.json();
+            setData([item, ...data]);
+        });
 	};
+
+    if (isError) {
+		return <Box>{error}</Box>;
+	}
+
+    if (isLoading) {
+		return <Box>Loading...</Box>;
+	}
 
 	return (
 		<Box>

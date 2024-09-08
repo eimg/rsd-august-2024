@@ -35,6 +35,7 @@ router.post("/posts", async function (req, res) {
 
 	const post = await prisma.post.create({
 		data: { content, userId: 1 },
+        include: { user: true },
 	});
 
 	res.status(201).json(post);
