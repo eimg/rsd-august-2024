@@ -5,7 +5,7 @@ import Item from "../components/Item";
 
 import { useApp } from "../ThemedApp";
 
-import { useQuery } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 
 const api = "http://localhost:8080/posts";
 
@@ -14,27 +14,43 @@ async function fetchPosts() {
     return res.json();
 }
 
+async function deletePost(id) {
+    return fetch(`${api}/${id}`, { method: "DELETE" });
+}
+
+async function postPost(content) {
+    const res = await fetch(api, {
+		method: "POST",
+		body: JSON.stringify({ content }),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+
+    return res.json();
+}
+
 export default function Home() {
 	const { showForm } = useApp();
 	const { data, error, isError, isLoading } = useQuery("posts", fetchPosts);
 
-	const remove = id => {
-        fetch(`${api}/${id}`, { method: 'DELETE' });
-		setData(data.filter(item => item.id !== id));
-	};
+    const queryClient = useQueryClient();
 
-	const add = content => {
-		fetch(api, {
-            method: 'POST',
-            body: JSON.stringify({ content }),
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        }).then(async res => {
-            const item = await res.json();
-            setData([item, ...data]);
-        });
-	};
+	const remove = useMutation(id => deletePost(id), {
+        onMutate: async id => {
+            await queryClient.cancelQueries("posts");
+            queryClient.setQueryData("posts", old => {
+                return old.filter(item => item.id !== id);
+            });
+        }
+    });
+
+	const add = useMutation(content => postPost(content), {
+        onSuccess: async () => {
+            await queryClient.cancelQueries("posts");
+            queryClient.invalidateQueries("posts");
+        }
+    });
 
     if (isError) {
 		return <Box>{error}</Box>;

@@ -11,9 +11,7 @@ router.get("/posts", async function (req, res) {
 		include: { user: true },
 	});
 
-	setTimeout(() => {
-        res.json(data);
-    }, 2000);
+	res.json(data);
 });
 
 router.get("/posts/:id", async function (req, res) {
