@@ -1,5 +1,9 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import Icon from "@expo/vector-icons/Ionicons";
+import { TouchableOpacity } from "react-native";
+
+import { router } from "expo-router";
 
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -11,13 +15,31 @@ export default function RootLayout() {
 			<Stack
 				screenOptions={{
 					headerStyle: {
-						backgroundColor: "purple",
+						backgroundColor: "#5a189a",
 					},
 					headerTintColor: "#fff",
 				}}>
 				<Stack.Screen
 					name="index"
-					options={{ title: "Home" }}
+					options={{
+						title: "Home",
+						headerRight: () => {
+							return (
+								<TouchableOpacity onPress={() => router.push("/add")}>
+									<Icon
+										name="add"
+										color="white"
+										size={24}
+									/>
+								</TouchableOpacity>
+							);
+						},
+					}}
+				/>
+
+				<Stack.Screen
+					name="add"
+					options={{ title: "Add Post" }}
 				/>
 				<Stack.Screen
 					name="register/index"
