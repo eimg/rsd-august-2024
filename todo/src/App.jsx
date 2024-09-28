@@ -1,76 +1,113 @@
 import { useRef } from "react";
+
+import {
+	Container,
+	OutlinedInput,
+	IconButton,
+	List,
+	ListItem,
+	ListItemText,
+	Typography,
+	Badge,
+} from "@mui/material";
+
+import {
+	Delete as DeleteIcon,
+	SquareOutlined as CheckIcon,
+    Check as DoneIcon,
+    Add as AddIcon,
+} from "@mui/icons-material";
+
 import { useSelector, useDispatch } from "react-redux";
 import { add, del, toggle } from "./todoSlice";
+import { postTodo, deleteTodo, toggleTodo } from "./todoApi";
 
 export default function App() {
-    const nameRef = useRef();
+	const nameRef = useRef();
 
-    const items = useSelector(state => state.todo.items.filter(item => !item.done)); 
-    const done = useSelector(state => state.todo.items.filter(item => item.done)); 
+	const items = useSelector(state =>
+		state.todo.items.filter(item => !item.done)
+	);
+	const done = useSelector(state =>
+		state.todo.items.filter(item => item.done)
+	);
 
-    const disatch = useDispatch();
+	const disatch = useDispatch();
 
-    return (
-		<div>
-			<h1>Redux Todo ({items.length})</h1>
+	return (
+		<Container maxWidth="md">
+			<Typography
+				variant="h4"
+				sx={{ my: 4 }}>
+				<Badge
+					badgeContent={items.length}
+					color="error">
+					Redux Todo
+				</Badge>
+			</Typography>
 
 			<form
 				onSubmit={e => {
 					e.preventDefault();
-					disatch(add(nameRef.current.value));
+					disatch(postTodo(nameRef.current.value));
 					e.currentTarget.reset();
 				}}>
-				<input ref={nameRef} />
-				<button>Add</button>
+				<OutlinedInput
+					inputRef={nameRef}
+					fullWidth
+					endAdornment={
+						<IconButton>
+							<AddIcon />
+						</IconButton>
+					}
+				/>
 			</form>
 
-			<ul>
+			<List sx={{ mt: 4 }}>
 				{items.map(item => {
 					return (
-						<li key={item.id}>
-							<a
-								href="#"
+						<ListItem key={item.id}>
+							<IconButton
+								edge="start"
 								onClick={() => {
-									disatch(del(item.id));
+									disatch(toggleTodo(item.id));
 								}}>
-								Del
-							</a>
-							<a
-								href="#"
+								<CheckIcon />
+							</IconButton>
+							<ListItemText primary={item.name} />
+							<IconButton
 								onClick={() => {
-									disatch(toggle(item.id));
+									disatch(deleteTodo(item.id));
 								}}>
-								Check
-							</a>
-							{item.name}
-						</li>
+								<DeleteIcon />
+							</IconButton>
+						</ListItem>
 					);
 				})}
-			</ul>
+			</List>
 
-			<ul>
+			<List>
 				{done.map(item => {
 					return (
-						<li key={item.id}>
-							<a
-								href="#"
+						<ListItem key={item.id}>
+							<IconButton
+								edge="start"
 								onClick={() => {
-									disatch(del(item.id));
+									disatch(toggleTodo(item.id));
 								}}>
-								Del
-							</a>
-							<a
-								href="#"
+								<DoneIcon color="success" />
+							</IconButton>
+							<ListItemText primary={item.name} />
+							<IconButton
 								onClick={() => {
-									disatch(toggle(item.id));
+									disatch(deleteTodo(item.id));
 								}}>
-								Undo
-							</a>
-							<s>{item.name}</s>
-						</li>
+								<DeleteIcon />
+							</IconButton>
+						</ListItem>
 					);
 				})}
-			</ul>
-		</div>
+			</List>
+		</Container>
 	);
 }
