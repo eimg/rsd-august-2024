@@ -1,4 +1,4 @@
-import { useState, createContext, useContext, useMemo } from "react";
+import { useState, createContext, useContext, useMemo, useEffect } from "react";
 
 import {
     Container,
@@ -25,6 +25,26 @@ export default function ThemedApp() {
 	const [showForm, setShowForm] = useState(false);
 	const [mode, setMode] = useState("dark");
 
+    const [auth, setAuth] = useState(false);
+    const [authUser, setAuthUser] = useState({});
+
+    useEffect(() => {
+        // httpOnly cookie
+        const token = localStorage.getItem("token");
+
+        fetch("http://localhost:8080/verify", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		}).then(async res => {
+            if(res.ok) {
+                const user = await res.json();
+				setAuth(true);
+				setAuthUser(user);
+            }
+        });
+    }, []);
+
 	const theme = useMemo(() => {
 		return createTheme({
 			palette: {
@@ -48,6 +68,10 @@ export default function ThemedApp() {
 					setShowForm,
 					mode,
 					setMode,
+                    auth,
+                    setAuth,
+                    authUser,
+                    setAuthUser,
 				}}>
 				<Header />
 

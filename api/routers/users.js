@@ -4,8 +4,15 @@ const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const { auth } = require("../middlewares/auth");
+
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+
+router.get("/verify", auth, function(req, res) {
+    const user = res.locals.user;
+    res.json(user);
+});
 
 router.post("/register", async function (req, res) {
 	const { name, username, profile, password } = req.body;
@@ -42,7 +49,7 @@ router.post("/login", async function (req, res) {
 	if (user) {
 		if (await bcrypt.compare(password, user.password)) {
 			const token = jwt.sign(user, process.env.JWT_SECRET);
-            res.json({ token });
+            res.json({ token, user });
 		}
 	} else {
 		res.status(401).json({ msg: "username or password incorrect" });

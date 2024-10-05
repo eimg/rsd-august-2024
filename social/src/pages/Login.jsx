@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { Box, Typography, OutlinedInput, Button, Alert } from "@mui/material";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+import { useApp } from "../ThemedApp";
 
 async function postLogin(data) {
     const res = await fetch("http://localhost:8080/login", {
@@ -18,14 +19,16 @@ async function postLogin(data) {
 export default function Login() {
     const usernameRef = useRef();
     const passwordRef = useRef();
-
-    const navigate = useNavigate();
-
     const [error, setError] = useState("");
 
+    const navigate = useNavigate();
+    const { setAuth, setAuthUser } = useApp();
+
     const login = useMutation(postLogin, {
-        onSuccess: ({ token }) => {
+        onSuccess: ({ token, user }) => {
             localStorage.setItem("token", token);
+            setAuth(true);
+            setAuthUser(user);
             navigate("/");
         }
     });

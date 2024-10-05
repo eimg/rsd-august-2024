@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "../ThemedApp";
 
 export default function AppDrawer() {
-	const { showDrawer, setShowDrawer } = useApp();
+	const { showDrawer, setShowDrawer, auth, authUser, setAuth, setAuthUser } = useApp();
     const navigate = useNavigate();
 
 	return (
@@ -59,7 +59,7 @@ export default function AppDrawer() {
 							}}
 						/>
 						<Typography sx={{ fontWeight: "bold" }}>
-							Alice
+							{auth ? authUser.name : "Guest"}
 						</Typography>
 					</Box>
 				</Box>
@@ -74,39 +74,54 @@ export default function AppDrawer() {
 					</ListItem>
 					<Divider />
 
-					<ListItem>
-						<ListItemButton onClick={() => navigate("/register")}>
-							<ListItemIcon>
-								<RegisterIcon />
-							</ListItemIcon>
-							<ListItemText>Register</ListItemText>
-						</ListItemButton>
-					</ListItem>
-					<ListItem>
-						<ListItemButton onClick={() => navigate("/login")}>
-							<ListItemIcon>
-								<LoginIcon />
-							</ListItemIcon>
-							<ListItemText>Login</ListItemText>
-						</ListItemButton>
-					</ListItem>
+					{!auth && (
+						<>
+							<ListItem>
+								<ListItemButton
+									onClick={() => navigate("/register")}>
+									<ListItemIcon>
+										<RegisterIcon />
+									</ListItemIcon>
+									<ListItemText>Register</ListItemText>
+								</ListItemButton>
+							</ListItem>
+							<ListItem>
+								<ListItemButton
+									onClick={() => navigate("/login")}>
+									<ListItemIcon>
+										<LoginIcon />
+									</ListItemIcon>
+									<ListItemText>Login</ListItemText>
+								</ListItemButton>
+							</ListItem>
+						</>
+					)}
 
-					<ListItem>
-						<ListItemButton onClick={() => navigate("/profile")}>
-							<ListItemIcon>
-								<ProfileIcon />
-							</ListItemIcon>
-							<ListItemText>Profile</ListItemText>
-						</ListItemButton>
-					</ListItem>
-					<ListItem>
-						<ListItemButton>
-							<ListItemIcon>
-								<LogoutIcon color="error" />
-							</ListItemIcon>
-							<ListItemText>Logout</ListItemText>
-						</ListItemButton>
-					</ListItem>
+					{auth && (
+						<>
+							<ListItem>
+								<ListItemButton
+									onClick={() => navigate("/profile")}>
+									<ListItemIcon>
+										<ProfileIcon />
+									</ListItemIcon>
+									<ListItemText>Profile</ListItemText>
+								</ListItemButton>
+							</ListItem>
+							<ListItem>
+								<ListItemButton onClick={() => {
+                                    setAuth(false);
+                                    setAuthUser({});
+                                    navigate("/");
+                                }}>
+									<ListItemIcon>
+										<LogoutIcon color="error" />
+									</ListItemIcon>
+									<ListItemText>Logout</ListItemText>
+								</ListItemButton>
+							</ListItem>
+						</>
+					)}
 				</List>
 			</Drawer>
 		</div>

@@ -1,7 +1,9 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Box, Typography, OutlinedInput, Button, Alert } from "@mui/material";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+
+import { useForm } from "react-hook-form";
 
 async function postRegister(data) {
 	const res = await fetch("http://localhost:8080/register", {
@@ -16,17 +18,18 @@ async function postRegister(data) {
 }
 
 export default function Register() {
-	const nameRef = useRef();
-	const usernameRef = useRef();
-	const profileRef = useRef();
-	const passwordRef = useRef();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-    const navigate = useNavigate();
-
+	const navigate = useNavigate();
 	const [error, setError] = useState("");
 
-	const register = useMutation(postRegister, {
+	const createUser = useMutation(postRegister, {
 		onSuccess: () => navigate("/login"),
+        onError: () => setError("Something went wrong"),
 	});
 
 	return (
@@ -45,48 +48,39 @@ export default function Register() {
 				</Alert>
 			)}
 
-			<form
-				onSubmit={e => {
-					e.preventDefault();
-
-					const name = nameRef.current.value;
-					const username = usernameRef.current.value;
-					const profile = profileRef.current.value;
-					const password = passwordRef.current.value;
-
-					if (!name || !username || !password) {
-						return setError("require name, username and password");
-					}
-
-                    register.mutate({name, username, profile, password});
-
-					e.currentTarget.reset();
-				}}>
+			<form onSubmit={handleSubmit(data => createUser.mutate(data))}>
 				<OutlinedInput
 					sx={{ mb: 2 }}
 					fullWidth
 					placeholder="Name"
-					inputRef={nameRef}
+					error={Boolean(errors.name)}
+					{...register("name", { required: true })}
 				/>
+
 				<OutlinedInput
 					sx={{ mb: 2 }}
 					fullWidth
 					placeholder="Username"
-					inputRef={usernameRef}
+					error={Boolean(errors.username)}
+					{...register("username", {
+						required: true,
+						pattern: /^[a-z0-9_]+$/i,
+					})}
 				/>
 				<OutlinedInput
 					multiline
 					sx={{ mb: 2 }}
 					fullWidth
 					placeholder="Profile"
-					inputRef={profileRef}
+					{...register("profile")}
 				/>
 				<OutlinedInput
 					sx={{ mb: 2 }}
-					fullWidth
-					placeholder="Password"
 					type="password"
-					inputRef={passwordRef}
+					placeholder="Password"
+					fullWidth
+					error={Boolean(errors.password)}
+					{...register("password", { required: true })}
 				/>
 
 				<Button
