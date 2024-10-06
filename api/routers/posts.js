@@ -4,11 +4,43 @@ const router = express.Router();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+const { auth } = require("../middlewares/auth");
+
+router.post("/like/:id", auth, async function (req, res) {
+	const postId = req.params.id;
+	const userId = res.locals.user.id;
+
+	const result = await prisma.like.create({
+		data: {
+			postId: Number(postId),
+			userId: Number(userId),
+		},
+	});
+
+	res.json(result);
+});
+
+router.delete("/unlike/:id", auth, async function (req, res) {
+	const postId = req.params.id;
+	const userId = res.locals.user.id;
+
+	const result = await prisma.like.deleteMany({
+		where: {
+			AND: {
+				postId: Number(postId),
+				userId: Number(userId),
+			},
+		},
+	});
+
+	res.json(result);
+});
+
 router.get("/posts", async function (req, res) {
 	const data = await prisma.post.findMany({
 		orderBy: { id: "desc" },
 		take: 20,
-		include: { user: true },
+		include: { user: true, likes: true },
 	});
 
 	res.json(data);
@@ -18,7 +50,7 @@ router.get("/posts/:id", async function (req, res) {
 	const { id } = req.params;
 	const data = await prisma.post.findFirst({
 		where: { id: Number(id) },
-		include: { user: true },
+		include: { user: true, likes: true },
 	});
 
 	res.json(data);

@@ -14,6 +14,10 @@ async function postRegister(data) {
 		},
 	});
 
+    if (!res.ok) {
+		throw new Error(await res.json());
+	}
+
 	return res.json();
 }
 

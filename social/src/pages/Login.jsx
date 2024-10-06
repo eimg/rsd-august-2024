@@ -1,11 +1,14 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Box, Typography, OutlinedInput, Button, Alert } from "@mui/material";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
+
+import { useForm } from "react-hook-form";
+
 import { useApp } from "../ThemedApp";
 
 async function postLogin(data) {
-    const res = await fetch("http://localhost:8080/login", {
+	const res = await fetch("http://localhost:8080/login", {
 		method: "POST",
 		body: JSON.stringify(data),
 		headers: {
@@ -13,25 +16,35 @@ async function postLogin(data) {
 		},
 	});
 
-    return res.json();
+    if(!res.ok) {
+        throw new Error(await res.json());
+    }
+
+	return res.json();
 }
 
 export default function Login() {
-    const usernameRef = useRef();
-    const passwordRef = useRef();
-    const [error, setError] = useState("");
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-    const navigate = useNavigate();
-    const { setAuth, setAuthUser } = useApp();
+	const [error, setError] = useState("");
 
-    const login = useMutation(postLogin, {
-        onSuccess: ({ token, user }) => {
-            localStorage.setItem("token", token);
-            setAuth(true);
-            setAuthUser(user);
-            navigate("/");
-        }
-    });
+	const navigate = useNavigate();
+
+	const { setAuth, setAuthUser } = useApp();
+
+	const login = useMutation(postLogin, {
+		onSuccess: ({ token, user }) => {
+			localStorage.setItem("token", token);
+			setAuth(true);
+			setAuthUser(user);
+			navigate("/");
+		},
+        onError: () => setError("Something went wrong"),
+	});
 
 	return (
 		<Box>
@@ -49,32 +62,24 @@ export default function Login() {
 				</Alert>
 			)}
 
-			<form onSubmit={e => {
-                e.preventDefault();
-
-                const username = usernameRef.current.value;
-                const password = passwordRef.current.value;
-
-                if(!username || !password) {
-                    return setError("username and password required");
-                }
-
-                login.mutate({ username, password });
-
-                e.currentTarget.reset();
-            }}>
+			<form onSubmit={handleSubmit(data => login.mutate(data))}>
 				<OutlinedInput
 					sx={{ mb: 2 }}
 					fullWidth
 					placeholder="Username"
-                    inputRef={usernameRef}
+					error={Boolean(errors.username)}
+					{...register("username", {
+						required: true,
+						pattern: /^[a-z0-9_]+$/i,
+					})}
 				/>
 				<OutlinedInput
 					sx={{ mb: 2 }}
 					fullWidth
 					placeholder="Password"
 					type="password"
-                    inputRef={passwordRef}
+					error={Boolean(errors.password)}
+					{...register("password", { required: true })}
 				/>
 
 				<Button
