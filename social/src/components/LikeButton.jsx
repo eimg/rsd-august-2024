@@ -66,21 +66,31 @@ export default function LikeButton({ item }) {
 	return (
 		<ButtonGroup>
 			{isLiked() ? (
-				<IconButton onClick={e => {
-                    unlike.mutate(item.id);
-                    e.stopPropagation();
-                }}>
-					<LikedIcon color="error" />
+				<IconButton
+					size="small"
+					onClick={e => {
+						unlike.mutate(item.id);
+						e.stopPropagation();
+					}}>
+					<LikedIcon
+						color="error"
+						fontSize="inherit"
+					/>
 				</IconButton>
 			) : (
-				<IconButton onClick={e => {
-                    like.mutate(item.id);
-                    e.stopPropagation();
-                }}>
-					<LikeIcon color="error" />
+				<IconButton
+                    size="small"
+					onClick={e => {
+						like.mutate(item.id);
+						e.stopPropagation();
+					}}>
+					<LikeIcon
+						color="error"
+						fontSize="inherit"
+					/>
 				</IconButton>
 			)}
-			<Button variant="text">{item.likes ? item.likes.length : 0}</Button>
+			<Button variant="text" size="small">{item.likes ? item.likes.length : 0}</Button>
 		</ButtonGroup>
 	);
 }

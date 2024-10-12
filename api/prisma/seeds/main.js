@@ -36,6 +36,18 @@ async function main() {
         })
     }
     console.log("Post seeding done.");
+
+    console.log("Comment seeding started...");
+	for (let i = 0; i < 40; i++) {
+		const content = faker.lorem.paragraph(2);
+		const userId = faker.number.int({ min: 1, max: 5 });
+		const postId = faker.number.int({ min: 1, max: 20 });
+
+		await prisma.comment.create({
+			data: { content, userId, postId },
+		});
+	}
+	console.log("Comment seeding done.");
 }
 
 main();

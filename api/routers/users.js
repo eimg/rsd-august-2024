@@ -56,4 +56,32 @@ router.post("/login", async function (req, res) {
 	}
 });
 
+router.post("/follow/:id", auth, async function (req, res) {
+	const user = res.locals.user;
+	const { id } = req.params;
+
+	const data = await prisma.follow.create({
+		data: {
+			followerId: Number(user.id),
+			followingId: Number(id),
+		},
+	});
+
+	res.json(data);
+});
+
+router.delete("/unfollow/:id", auth, async function (req, res) {
+	const user = res.locals.user;
+	const { id } = req.params;
+
+	await prisma.follow.deleteMany({
+		where: {
+			followerId: Number(user.id),
+			followingId: Number(id),
+		},
+	});
+
+	res.json({ msg: `Unfollow user ${id}` });
+});
+
 module.exports = { usersRouter: router };

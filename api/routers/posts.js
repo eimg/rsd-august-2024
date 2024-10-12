@@ -40,7 +40,7 @@ router.get("/posts", async function (req, res) {
 	const data = await prisma.post.findMany({
 		orderBy: { id: "desc" },
 		take: 20,
-		include: { user: true, likes: true },
+		include: { user: true, likes: true, comments: true },
 	});
 
 	res.json(data);
@@ -50,7 +50,13 @@ router.get("/posts/:id", async function (req, res) {
 	const { id } = req.params;
 	const data = await prisma.post.findFirst({
 		where: { id: Number(id) },
-		include: { user: true, likes: true },
+		include: { 
+            user: true, 
+            likes: true, 
+            comments: {
+                include: { user: true }
+            },
+        },
 	});
 
 	res.json(data);

@@ -13,6 +13,9 @@ app.use("/", postsRouter);
 const { usersRouter } = require("./routers/users");
 app.use("/", usersRouter);
 
+const { commentsRouter } = require("./routers/comments");
+app.use("/", commentsRouter);
+
 app.listen(8080, () => {
     console.log("API running at 8080...");
 });
