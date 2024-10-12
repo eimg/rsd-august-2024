@@ -1,29 +1,58 @@
 import { Button } from "@mui/material";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 
-import { useApp, queryClient } from "../ThemedApp";
+import { useApp } from "../ThemedApp";
 
 export default function FollowButton({ user }) {
-	const { auth } = useApp();
+	const { auth, authUser } = useApp();
+
+    const queryClient = useQueryClient();
 
 	function isFollowing() {
 		if (!auth) return false;
-		return user.following.find(item => item.followerId == auth.id);
+		return user.following.find(item => item.followerId == authUser.id);
 	}
 
-	const follow = useMutation(()=>{}, {
+	const follow = useMutation(async () => {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch(`http://localhost:8080/follow/${user.id}`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return res.json();
+    }, {
 		onSuccess: async () => {
-			await queryClient.refetchQueries("users");
-			await queryClient.refetchQueries("user");
+			await queryClient.invalidateQueries("users");
+			await queryClient.invalidateQueries("user");
+			await queryClient.invalidateQueries("search");
 		},
 	});
 
-	const unfollow = useMutation(()=>{}, {
-		onSuccess: async () => {
-			await queryClient.refetchQueries("users");
-			await queryClient.refetchQueries("user");
+	const unfollow = useMutation(
+		async () => {
+			const token = localStorage.getItem("token");
+
+			const res = await fetch(`http://localhost:8080/unfollow/${user.id}`, {
+				method: "DELETE",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			return res.json();
 		},
-	});
+		{
+			onSuccess: async () => {
+				await queryClient.invalidateQueries("users");
+				await queryClient.invalidateQueries("user");
+				await queryClient.invalidateQueries("search");
+			},
+		}
+	);
 
 	return auth.id === user.id ? (
 		<></>

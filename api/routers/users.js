@@ -14,6 +14,28 @@ router.get("/verify", auth, function(req, res) {
     res.json(user);
 });
 
+router.get("/users/:id", async function (req, res) {
+    const { id } = req.params;
+    const user = await prisma.user.findUnique({
+        where: {
+            id: Number(id)
+        },
+        include: {
+            followers: true,
+            following: true,
+            posts: {
+                include: {
+                    user: true,
+                    comments: true,
+                    likes: true,
+                }
+            }
+        }
+    });
+
+    res.json(user);
+});
+
 router.post("/register", async function (req, res) {
 	const { name, username, profile, password } = req.body;
 	if (!name || !username || !password) {
@@ -82,6 +104,25 @@ router.delete("/unfollow/:id", auth, async function (req, res) {
 	});
 
 	res.json({ msg: `Unfollow user ${id}` });
+});
+
+router.get("/search", async (req, res) => {
+    const { q } = req.query;
+
+    const users = await prisma.user.findMany({
+        where: {
+            name: {
+                contains: q
+            }
+        },
+        include: {
+            followers: true,
+            following: true,
+        },
+        take: 5,
+    });
+
+    res.json(users);
 });
 
 module.exports = { usersRouter: router };

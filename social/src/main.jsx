@@ -20,6 +20,7 @@ import ErrorPage from "./ErrorPage.jsx";
 import Post from "./pages/Post.jsx";
 
 import { QueryClient, QueryClientProvider } from "react-query";
+import Search from "./pages/Search.jsx";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
 				path: "/profile/:id",
 				element: <Profile />,
 			},
+            {
+                path: "/search",
+                element: <Search />
+            }
 		],
 	},
 ]);
