@@ -6,6 +6,8 @@ import { Clapperboard, Video } from "lucide-react";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -51,39 +53,48 @@ export default async function RootLayout({
 		<html lang="en">
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<div className="p-4 border-b flex justify-between items-center">
-					<h1 className="text-2xl font-bold flex gap-2 items-center">
-						<Clapperboard size={32} />
-						<Link href="/">Movie</Link>
-					</h1>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange>
+					<div className="p-4 border-b flex justify-between items-center">
+						<h1 className="text-2xl font-bold flex gap-2 items-center">
+							<Clapperboard size={32} />
+							<Link href="/">Movie</Link>
+						</h1>
 
-					<Link
-						className="text-blue-600"
-						href="/contact">
-						Contact
-					</Link>
-				</div>
-
-				<div className="flex">
-					<div className="w-[300px] p-4 border-r flex flex-col gap-1">
-						{genres.map(genre => {
-							return (
-								<Button
-									variant="outline"
-									asChild
-									className="justify-start">
-									<Link
-										href={`/movie/${genre.id}`}
-										className="flex items-center gap-2">
-										<Video color="#666" />
-										{genre.name}
-									</Link>
-								</Button>
-							);
-						})}
+						<div className="flex gap-3 items-center">
+							<Link
+								className="text-blue-600"
+								href="/contact">
+								Contact
+							</Link>
+							<ModeToggle />
+						</div>
 					</div>
-					<div className="p-4">{children}</div>
-				</div>
+
+					<div className="flex">
+						<div className="w-[300px] p-4 border-r flex flex-col gap-1">
+							{genres.map(genre => {
+								return (
+									<Button
+										variant="outline"
+										asChild
+										className="justify-start">
+										<Link
+											href={`/genre/${genre.name}/${genre.id}`}
+											className="flex items-center gap-2">
+											<Video />
+											{genre.name}
+										</Link>
+									</Button>
+								);
+							})}
+						</div>
+						<div className="p-4">{children}</div>
+					</div>
+				</ThemeProvider>
 			</body>
 		</html>
 	);
