@@ -1,10 +1,10 @@
 import Movie from "@/components/movie";
 
 interface Movie {
-    id: number;
+	id: number;
 	title: string;
 	release_date: string;
-    poster_path: string;
+	poster_path: string;
 }
 
 async function fetchPopular(): Promise<Movie[]> {
@@ -25,13 +25,13 @@ async function fetchTrending(): Promise<Movie[]> {
 		},
 	});
 
-    const data = await res.json();
-	return data.results
+	const data = await res.json();
+	return data.results;
 }
 
 export default async function Home() {
 	const trending = await fetchTrending();
-    const popular = await fetchPopular();
+	const popular = await fetchPopular();
 
 	return (
 		<div>
@@ -42,7 +42,9 @@ export default async function Home() {
 				})}
 			</div>
 
-			<h2 className="text-lg font-bold pb-2 mb-4 border-b mt-4">Popular</h2>
+			<h2 className="text-lg font-bold pb-2 mb-4 border-b mt-4">
+				Popular
+			</h2>
 			<div className="flex gap-4 flex-wrap justify-evenly">
 				{popular.map(movie => {
 					return <Movie movie={movie} />;

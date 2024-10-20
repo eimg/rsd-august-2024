@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-import { Clapperboard, Video } from "lucide-react";
+import { Clapperboard, Video, Search } from "lucide-react";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/mode-toggle";
+import { Input } from "@/components/ui/input";
+import { redirect } from "next/navigation";
 
 const geistSans = localFont({
 	src: "./fonts/GeistVF.woff",
@@ -49,6 +51,14 @@ export default async function RootLayout({
 }>) {
 	const genres = await fetchGenres();
 
+    async function searchMovies(formData: FormData) {
+		"use server";
+
+        const q = formData.get("q");
+
+		redirect(`/search?q=${q}`);
+	}
+
 	return (
 		<html lang="en">
 			<body
@@ -65,11 +75,12 @@ export default async function RootLayout({
 						</h1>
 
 						<div className="flex gap-3 items-center">
-							<Link
-								className="text-blue-600"
-								href="/contact">
-								Contact
-							</Link>
+							<form action={searchMovies} className="flex items-center gap-1">
+								<Input placeholder="Search" name="q" />
+                                <Button variant="ghost">
+                                    <Search />
+                                </Button>
+							</form>
 							<ModeToggle />
 						</div>
 					</div>
