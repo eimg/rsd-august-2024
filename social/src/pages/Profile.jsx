@@ -38,7 +38,7 @@ export default function Profile() {
 				<Avatar sx={{ width: 128, height: 128, bgcolor: teal[500] }} />
 
 				<Typography>{data.name}</Typography>
-                <FollowButton user={data} />
+				<FollowButton user={data} />
 			</Box>
 			<Box sx={{ mt: 4 }}>
 				{data.posts.map(post => {

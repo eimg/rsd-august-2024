@@ -23,7 +23,7 @@ async function fetchCast(id: string | number): Promise<Cast[]> {
 			headers: {
 				Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
 			},
-		}
+		},
 	);
 
 	const data = await res.json();
@@ -77,7 +77,9 @@ export default async function Movie({ params }: { params: { id: string } }) {
 								<div className="h-[250px]"></div>
 							)}
 							<h4 className="font-bold">{person.name}</h4>
-							<span className="text-gray-500">{person.character}</span>
+							<span className="text-gray-500">
+								{person.character}
+							</span>
 						</div>
 					);
 				})}

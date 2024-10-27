@@ -6,27 +6,30 @@
  * or disable the default devtool with "devtool: false".
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
-/******/ (() => { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
-
-/***/ "./src/app.js":
-/*!********************!*\
+/******/ (() => {
+	// webpackBootstrap
+	/******/ var __webpack_modules__ = {
+		/***/ "./src/app.js":
+			/*!********************!*\
   !*** ./src/app.js ***!
   \********************/
-/***/ (() => {
+			/***/ () => {
+				eval(
+					'function Element(props) {\n  return /*#__PURE__*/React.createElement("p", null, props.content);\n}\nReactDOM.render( /*#__PURE__*/React.createElement(Element, {\n  content: "React with Babel + Webpack Auto Compile"\n}), document.getElementById("app"));\n\n//# sourceURL=webpack://custom-build/./src/app.js?',
+				);
 
-eval("function Element(props) {\n  return /*#__PURE__*/React.createElement(\"p\", null, props.content);\n}\nReactDOM.render( /*#__PURE__*/React.createElement(Element, {\n  content: \"React with Babel + Webpack Auto Compile\"\n}), document.getElementById(\"app\"));\n\n//# sourceURL=webpack://custom-build/./src/app.js?");
+				/***/
+			},
 
-/***/ })
-
-/******/ 	});
-/************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
-/******/ 	var __webpack_exports__ = {};
-/******/ 	__webpack_modules__["./src/app.js"]();
-/******/ 	
-/******/ })()
-;
+		/******/
+	};
+	/************************************************************************/
+	/******/
+	/******/ // startup
+	/******/ // Load entry module and return exports
+	/******/ // This entry module can't be inlined because the eval devtool is used.
+	/******/ var __webpack_exports__ = {};
+	/******/ __webpack_modules__["./src/app.js"]();
+	/******/
+	/******/
+})();

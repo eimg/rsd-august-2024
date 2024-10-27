@@ -25,7 +25,8 @@ export default function RootLayout() {
 						title: "Home",
 						headerRight: () => {
 							return (
-								<TouchableOpacity onPress={() => router.push("/add")}>
+								<TouchableOpacity
+									onPress={() => router.push("/add")}>
 									<Icon
 										name="add"
 										color="white"

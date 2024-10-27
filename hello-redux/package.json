@@ -1,5 +1,5 @@
 {
-  "dependencies": {
-    "redux": "^5.0.1"
-  }
+	"dependencies": {
+		"redux": "^5.0.1"
+	}
 }

@@ -14,7 +14,7 @@ async function postRegister(data) {
 		},
 	});
 
-    if (!res.ok) {
+	if (!res.ok) {
 		throw new Error(await res.json());
 	}
 
@@ -33,7 +33,7 @@ export default function Register() {
 
 	const createUser = useMutation(postRegister, {
 		onSuccess: () => navigate("/login"),
-        onError: () => setError("Something went wrong"),
+		onError: () => setError("Something went wrong"),
 	});
 
 	return (

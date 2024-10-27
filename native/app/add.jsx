@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 export default function Add() {
 	const [content, setContent] = useState("");
 
-    const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
 
 	const addPost = useMutation(
 		async () => {
@@ -41,10 +41,10 @@ export default function Add() {
 		},
 		{
 			onSuccess: async () => {
-                await queryClient.invalidateQueries("posts");
-                router.navigate("/");
-            },
-		}
+				await queryClient.invalidateQueries("posts");
+				router.navigate("/");
+			},
+		},
 	);
 
 	return (

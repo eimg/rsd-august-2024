@@ -25,7 +25,7 @@ export default function Index() {
 					return old.filter(item => item.id !== id);
 				});
 			},
-		}
+		},
 	);
 
 	if (isLoading) {

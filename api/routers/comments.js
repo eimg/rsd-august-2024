@@ -12,7 +12,7 @@ router.post("/comments", auth, async function (req, res) {
 
 	const result = await prisma.comment.create({
 		data: {
-            content: content,
+			content: content,
 			postId: Number(postId),
 			userId: Number(userId),
 		},
@@ -21,13 +21,13 @@ router.post("/comments", auth, async function (req, res) {
 	res.json(result);
 });
 
-router.delete("/comments/:id", auth, async function(req, res) {
-    const { id } = req.params;
-    const result = await prisma.comment.delete({
-        where: { id: Number(id) },
-    });
+router.delete("/comments/:id", auth, async function (req, res) {
+	const { id } = req.params;
+	const result = await prisma.comment.delete({
+		where: { id: Number(id) },
+	});
 
-    res.json(result);
+	res.json(result);
 });
 
 module.exports = { commentsRouter: router };

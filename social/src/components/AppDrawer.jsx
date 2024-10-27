@@ -24,8 +24,9 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "../ThemedApp";
 
 export default function AppDrawer() {
-	const { showDrawer, setShowDrawer, auth, authUser, setAuth, setAuthUser } = useApp();
-    const navigate = useNavigate();
+	const { showDrawer, setShowDrawer, auth, authUser, setAuth, setAuthUser } =
+		useApp();
+	const navigate = useNavigate();
 
 	return (
 		<div>
@@ -109,12 +110,13 @@ export default function AppDrawer() {
 								</ListItemButton>
 							</ListItem>
 							<ListItem>
-								<ListItemButton onClick={() => {
-                                    localStorage.removeItem("token");
-                                    setAuth(false);
-                                    setAuthUser({});
-                                    navigate("/");
-                                }}>
+								<ListItemButton
+									onClick={() => {
+										localStorage.removeItem("token");
+										setAuth(false);
+										setAuthUser({});
+										navigate("/");
+									}}>
 									<ListItemIcon>
 										<LogoutIcon color="error" />
 									</ListItemIcon>

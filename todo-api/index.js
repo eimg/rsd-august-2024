@@ -28,16 +28,16 @@ app.post("/", async (req, res) => {
 
 app.put("/:id", async (req, res) => {
 	const { id } = req.params;
-    const item = await prisma.todo.findFirst({
-        where: { id: Number(id) },
-    });
+	const item = await prisma.todo.findFirst({
+		where: { id: Number(id) },
+	});
 
 	const result = await prisma.todo.update({
 		where: { id: Number(id) },
 		data: { done: !item.done },
 	});
 
-    res.json(result);
+	res.json(result);
 });
 
 app.delete("/:id", async (req, res) => {

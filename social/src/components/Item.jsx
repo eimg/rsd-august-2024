@@ -20,6 +20,14 @@ import { useNavigate } from "react-router-dom";
 
 import LikeButton from "./LikeButton";
 
+import PropTypes from "prop-types";
+
+Item.propTypes = {
+	item: PropTypes.object,
+	remove: PropTypes.func,
+	primary: PropTypes.bool,
+};
+
 export default function Item({ item, remove, primary }) {
 	const navigate = useNavigate();
 
@@ -54,7 +62,7 @@ export default function Item({ item, remove, primary }) {
 						size="small"
 						onClick={e => {
 							remove.mutate(item.id);
-                            navigate("/");
+							navigate("/");
 							e.stopPropagation();
 						}}>
 						<DeleteIcon

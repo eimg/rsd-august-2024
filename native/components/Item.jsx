@@ -65,9 +65,10 @@ export default function Item({ item, remove }) {
 					<Text style={styles.timestamp}>
 						• {formatDistanceToNow(item.created)}
 					</Text>
-					<TouchableOpacity onPress={() => {
-                        remove.mutate(item.id);
-                    }}>
+					<TouchableOpacity
+						onPress={() => {
+							remove.mutate(item.id);
+						}}>
 						<Icon
 							name="ellipsis-vertical"
 							size={18}

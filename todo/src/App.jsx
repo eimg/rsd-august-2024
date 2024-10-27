@@ -14,8 +14,8 @@ import {
 import {
 	Delete as DeleteIcon,
 	SquareOutlined as CheckIcon,
-    Check as DoneIcon,
-    Add as AddIcon,
+	Check as DoneIcon,
+	Add as AddIcon,
 } from "@mui/icons-material";
 
 import { useSelector, useDispatch } from "react-redux";
@@ -26,10 +26,10 @@ export default function App() {
 	const nameRef = useRef();
 
 	const items = useSelector(state =>
-		state.todo.items.filter(item => !item.done)
+		state.todo.items.filter(item => !item.done),
 	);
 	const done = useSelector(state =>
-		state.todo.items.filter(item => item.done)
+		state.todo.items.filter(item => item.done),
 	);
 
 	const disatch = useDispatch();

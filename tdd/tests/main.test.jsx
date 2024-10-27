@@ -7,9 +7,9 @@ import "@testing-library/jest-dom/vitest";
 import App from "../src/App";
 
 describe("UI Test", () => {
-    render(<App />);
-    
-    it("render correctly", () => {
+	render(<App />);
+
+	it("render correctly", () => {
 		expect(screen.getByRole("title")).toBeInTheDocument();
 	});
 

@@ -14,7 +14,7 @@ async function fetchMovies(id: number | string): Promise<Movie[]> {
 			headers: {
 				Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
 			},
-		}
+		},
 	);
 
 	const data = await res.json();
@@ -26,14 +26,14 @@ export default async function Genre({
 }: {
 	params: { name: string; id: string };
 }) {
-    const movies = await fetchMovies(params.id);
+	const movies = await fetchMovies(params.id);
 
 	return (
 		<div>
 			<h2 className="text-lg pb-2 mb-4 border-b">
-                <b className="font-bold me-2">Category:</b>
-                {params.name}
-            </h2>
+				<b className="font-bold me-2">Category:</b>
+				{params.name}
+			</h2>
 			<div className="flex gap-4 flex-wrap justify-evenly">
 				{movies.map(movie => {
 					return <Movie movie={movie} />;

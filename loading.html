@@ -1,27 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading</title>
-    <style>
-        .loading {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 10px;
-            background: green;
-            animation: loading 2s infinite;
-        }
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Loading</title>
+		<style>
+			.loading {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 10px;
+				background: green;
+				animation: loading 2s infinite;
+			}
 
-        @keyframes loading {
-            0% { width: 0 }
-            50% { width: 100% }
-            100% { left: 100% }
-        }
-    </style>
-</head>
-<body>
-    <div class="loading"></div>
-</body>
+			@keyframes loading {
+				0% {
+					width: 0;
+				}
+				50% {
+					width: 100%;
+				}
+				100% {
+					left: 100%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="loading"></div>
+	</body>
 </html>

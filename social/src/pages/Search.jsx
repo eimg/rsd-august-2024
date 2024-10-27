@@ -5,10 +5,10 @@ import {
 	List,
 	ListItem,
 	ListItemText,
-    ListItemAvatar,
-    Avatar,
-    ListItemButton,
-    ListItemSecondaryAction,
+	ListItemAvatar,
+	Avatar,
+	ListItemButton,
+	ListItemSecondaryAction,
 } from "@mui/material";
 
 import { useState } from "react";
@@ -24,20 +24,23 @@ import FollowButton from "../components/FollowButton";
 export default function Search() {
 	const { handleSubmit, register } = useForm();
 
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const [search, setSearch] = useState([]);
 
-    const { data, isLoading, error } = useQuery(["search", search], async () => {
-        const res = await fetch(`http://localhost:8080/search?q=${search}`);
-        return res.json();
-    }) 
+	const { data, isLoading, error } = useQuery(
+		["search", search],
+		async () => {
+			const res = await fetch(`http://localhost:8080/search?q=${search}`);
+			return res.json();
+		},
+	);
 
 	const searchUser = ({ q }) => {
 		setSearch(q);
 	};
 
-    if (isLoading) {
+	if (isLoading) {
 		return <Box>Loading...</Box>;
 	}
 
@@ -64,17 +67,18 @@ export default function Search() {
 				{data.map(user => {
 					return (
 						<ListItem key={user.id}>
-							<ListItemButton onClick={() => navigate(`/profile/${user.id}`)}>
+							<ListItemButton
+								onClick={() => navigate(`/profile/${user.id}`)}>
 								<ListItemAvatar>
 									<Avatar />
 								</ListItemAvatar>
-								<ListItemText 
-                                    primary={user.name}
-                                    secondary={user.username}
-                                />
-                                <ListItemSecondaryAction>
-                                    <FollowButton user={user} />
-                                </ListItemSecondaryAction>
+								<ListItemText
+									primary={user.name}
+									secondary={user.username}
+								/>
+								<ListItemSecondaryAction>
+									<FollowButton user={user} />
+								</ListItemSecondaryAction>
 							</ListItemButton>
 						</ListItem>
 					);

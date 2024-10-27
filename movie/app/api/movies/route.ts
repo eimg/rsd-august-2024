@@ -12,7 +12,7 @@ async function fetchPopular(): Promise<MovieType[]> {
 }
 
 export async function GET(req: Request) {
-    const movies = await fetchPopular();
+	const movies = await fetchPopular();
 
-    return Response.json(movies);
+	return Response.json(movies);
 }

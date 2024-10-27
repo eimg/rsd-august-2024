@@ -3,4 +3,5 @@
 Weekly Source Code Update
 
 ## Resources
-* [RSD 2025](https://eimaung.com/rsd2025)
+
+-   [RSD 2025](https://eimaung.com/rsd2025)

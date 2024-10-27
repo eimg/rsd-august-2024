@@ -13,7 +13,7 @@ export const todoSlice = createSlice({
 		},
 		del: (state, action) => {
 			state.items = state.items.filter(
-				item => item.id !== action.payload
+				item => item.id !== action.payload,
 			);
 		},
 		toggle: (state, action) => {
@@ -36,7 +36,7 @@ export const todoSlice = createSlice({
 			})
 			.addCase(deleteTodo.fulfilled, (state, action) => {
 				state.items = state.items.filter(
-					item => item.id !== action.payload.id
+					item => item.id !== action.payload.id,
 				);
 			})
 			.addCase(toggleTodo.fulfilled, (state, action) => {

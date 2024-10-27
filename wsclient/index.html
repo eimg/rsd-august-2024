@@ -1,46 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-</head>
-<body>
-    <h1>Chat</h1>
-    <ul id="list"></ul>
-    <form>
-        <input type="text" id="name" placeholder="Name">
-        <input type="text" id="msg" placeholder="Message">
-        <button>Button</button>
-    </form>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<title>Chat</title>
+	</head>
+	<body>
+		<h1>Chat</h1>
+		<ul id="list"></ul>
+		<form>
+			<input
+				type="text"
+				id="name"
+				placeholder="Name" />
+			<input
+				type="text"
+				id="msg"
+				placeholder="Message" />
+			<button>Button</button>
+		</form>
 
-    <script>
-        const ws = new WebSocket("ws://localhost:3200/chat");
+		<script>
+			const ws = new WebSocket("ws://localhost:3200/chat");
 
-        ws.addEventListener("open", () => {
-            ws.addEventListener("message", e => {
-                const data = JSON.parse(e.data);
-                createElement(data);
-            });
-        });
+			ws.addEventListener("open", () => {
+				ws.addEventListener("message", e => {
+					const data = JSON.parse(e.data);
+					createElement(data);
+				});
+			});
 
-        function createElement(data) {
-            const li = document.createElement("li");
-            li.innerHTML = `<b>${data.name}</b>: ${data.msg}`;
-            document.querySelector("#list").appendChild(li);
-        }
+			function createElement(data) {
+				const li = document.createElement("li");
+				li.innerHTML = `<b>${data.name}</b>: ${data.msg}`;
+				document.querySelector("#list").appendChild(li);
+			}
 
-        document.querySelector("form").onsubmit = e => {
-            e.preventDefault();
+			document.querySelector("form").onsubmit = e => {
+				e.preventDefault();
 
-            const name = document.querySelector("#name").value;
-            const msg = document.querySelector("#msg").value;
+				const name = document.querySelector("#name").value;
+				const msg = document.querySelector("#msg").value;
 
-            ws.send(JSON.stringify({ name, msg }));
+				ws.send(JSON.stringify({ name, msg }));
 
-            document.querySelector("#msg").value = "";
-            document.querySelector("#msg").focus();
-        }
-    </script>
-</body>
+				document.querySelector("#msg").value = "";
+				document.querySelector("#msg").focus();
+			};
+		</script>
+	</body>
 </html>

@@ -16,9 +16,9 @@ async function postLogin(data) {
 		},
 	});
 
-    if(!res.ok) {
-        throw new Error(await res.json());
-    }
+	if (!res.ok) {
+		throw new Error(await res.json());
+	}
 
 	return res.json();
 }
@@ -43,7 +43,7 @@ export default function Login() {
 			setAuthUser(user);
 			navigate("/");
 		},
-        onError: () => setError("Something went wrong"),
+		onError: () => setError("Something went wrong"),
 	});
 
 	return (

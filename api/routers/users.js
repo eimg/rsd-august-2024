@@ -9,31 +9,31 @@ const { auth } = require("../middlewares/auth");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-router.get("/verify", auth, function(req, res) {
-    const user = res.locals.user;
-    res.json(user);
+router.get("/verify", auth, function (req, res) {
+	const user = res.locals.user;
+	res.json(user);
 });
 
 router.get("/users/:id", async function (req, res) {
-    const { id } = req.params;
-    const user = await prisma.user.findUnique({
-        where: {
-            id: Number(id)
-        },
-        include: {
-            followers: true,
-            following: true,
-            posts: {
-                include: {
-                    user: true,
-                    comments: true,
-                    likes: true,
-                }
-            }
-        }
-    });
+	const { id } = req.params;
+	const user = await prisma.user.findUnique({
+		where: {
+			id: Number(id),
+		},
+		include: {
+			followers: true,
+			following: true,
+			posts: {
+				include: {
+					user: true,
+					comments: true,
+					likes: true,
+				},
+			},
+		},
+	});
 
-    res.json(user);
+	res.json(user);
 });
 
 router.post("/register", async function (req, res) {
@@ -71,7 +71,7 @@ router.post("/login", async function (req, res) {
 	if (user) {
 		if (await bcrypt.compare(password, user.password)) {
 			const token = jwt.sign(user, process.env.JWT_SECRET);
-            res.json({ token, user });
+			res.json({ token, user });
 		}
 	} else {
 		res.status(401).json({ msg: "username or password incorrect" });
@@ -107,22 +107,22 @@ router.delete("/unfollow/:id", auth, async function (req, res) {
 });
 
 router.get("/search", async (req, res) => {
-    const { q } = req.query;
+	const { q } = req.query;
 
-    const users = await prisma.user.findMany({
-        where: {
-            name: {
-                contains: q
-            }
-        },
-        include: {
-            followers: true,
-            following: true,
-        },
-        take: 5,
-    });
+	const users = await prisma.user.findMany({
+		where: {
+			name: {
+				contains: q,
+			},
+		},
+		include: {
+			followers: true,
+			following: true,
+		},
+		take: 5,
+	});
 
-    res.json(users);
+	res.json(users);
 });
 
 module.exports = { usersRouter: router };

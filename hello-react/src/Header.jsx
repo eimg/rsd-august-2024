@@ -1,21 +1,15 @@
 import { useAppContext } from "./ThemedApp";
 
-import {
-    AppBar,
-    Toolbar,
-    IconButton,
-    Typography,
-    Box,
-} from "@mui/material";
+import { AppBar, Toolbar, IconButton, Typography, Box } from "@mui/material";
 
 import {
-    Add as AddIcon,
-    LightMode as LightModeIcon,
-    DarkMode as DarkModeIcon,
+	Add as AddIcon,
+	LightMode as LightModeIcon,
+	DarkMode as DarkModeIcon,
 } from "@mui/icons-material";
 
 export default function Header({ showForm, setShowForm }) {
-    const { mode, setMode } = useAppContext();
+	const { mode, setMode } = useAppContext();
 
 	return (
 		<AppBar position="static">

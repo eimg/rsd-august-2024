@@ -2,14 +2,17 @@ import type { MovieType } from "@/types/movie";
 import Movie from "@/components/movie";
 
 async function fetchSearch(q: string): Promise<MovieType[]> {
-	const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${q}`, {
-		headers: {
-			Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+	const res = await fetch(
+		`https://api.themoviedb.org/3/search/movie?query=${q}`,
+		{
+			headers: {
+				Authorization: `Bearer ${process.env.TMDB_TOKEN}`,
+			},
 		},
-	});
+	);
 
 	const data = await res.json();
-    return data.results;
+	return data.results;
 }
 
 export default async function Search({
@@ -17,7 +20,7 @@ export default async function Search({
 }: {
 	searchParams: { q: string };
 }) {
-    const movies = await fetchSearch(searchParams.q);
+	const movies = await fetchSearch(searchParams.q);
 
 	return (
 		<div>

@@ -6,10 +6,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-import {
-    createBrowserRouter,
-    RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import ThemedApp from "./ThemedApp.jsx";
 import Home from "./pages/Home.jsx";
@@ -50,10 +47,10 @@ const router = createBrowserRouter([
 				path: "/profile/:id",
 				element: <Profile />,
 			},
-            {
-                path: "/search",
-                element: <Search />
-            }
+			{
+				path: "/search",
+				element: <Search />,
+			},
 		],
 	},
 ]);
@@ -63,5 +60,5 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 		<QueryClientProvider client={queryClient}>
 			<RouterProvider router={router} />
 		</QueryClientProvider>
-	</React.StrictMode>
+	</React.StrictMode>,
 );

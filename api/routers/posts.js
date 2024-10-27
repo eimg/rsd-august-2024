@@ -50,13 +50,13 @@ router.get("/posts/:id", async function (req, res) {
 	const { id } = req.params;
 	const data = await prisma.post.findFirst({
 		where: { id: Number(id) },
-		include: { 
-            user: true, 
-            likes: true, 
-            comments: {
-                include: { user: true }
-            },
-        },
+		include: {
+			user: true,
+			likes: true,
+			comments: {
+				include: { user: true },
+			},
+		},
 	});
 
 	res.json(data);
@@ -71,7 +71,7 @@ router.post("/posts", async function (req, res) {
 
 	const post = await prisma.post.create({
 		data: { content, userId: 1 },
-        include: { user: true },
+		include: { user: true },
 	});
 
 	res.status(201).json(post);

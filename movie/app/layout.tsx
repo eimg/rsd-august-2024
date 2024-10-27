@@ -40,7 +40,7 @@ async function fetchGenres(): Promise<Genre[]> {
 		},
 	});
 
-    const data = await res.json();
+	const data = await res.json();
 	return data.genres;
 }
 
@@ -51,10 +51,10 @@ export default async function RootLayout({
 }>) {
 	const genres = await fetchGenres();
 
-    async function searchMovies(formData: FormData) {
+	async function searchMovies(formData: FormData) {
 		"use server";
 
-        const q = formData.get("q");
+		const q = formData.get("q");
 
 		redirect(`/search?q=${q}`);
 	}
@@ -75,11 +75,16 @@ export default async function RootLayout({
 						</h1>
 
 						<div className="flex gap-3 items-center">
-							<form action={searchMovies} className="flex items-center gap-1">
-								<Input placeholder="Search" name="q" />
-                                <Button variant="ghost">
-                                    <Search />
-                                </Button>
+							<form
+								action={searchMovies}
+								className="flex items-center gap-1">
+								<Input
+									placeholder="Search"
+									name="q"
+								/>
+								<Button variant="ghost">
+									<Search />
+								</Button>
 							</form>
 							<ModeToggle />
 						</div>

@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-    await prisma.user.create({
+	await prisma.user.create({
 		data: {
 			name: "Alice",
 			username: "alice",
@@ -10,8 +10,8 @@ async function main() {
 			password: "password",
 			posts: {
 				create: [
-					{ content: "Alice post content", },
-					{ content: "Another post by Alice", },
+					{ content: "Alice post content" },
+					{ content: "Another post by Alice" },
 				],
 			},
 		},

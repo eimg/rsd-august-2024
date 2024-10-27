@@ -30,7 +30,7 @@ async function app() {
 	console.log(a());
 	try {
 		console.log(await b(false));
-        console.log(c());
+		console.log(c());
 	} catch (e) {
 		console.log(e);
 	}

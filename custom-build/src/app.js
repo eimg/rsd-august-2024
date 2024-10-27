@@ -4,5 +4,5 @@ function Element(props) {
 
 ReactDOM.render(
 	<Element content="React with Babel + Webpack Dev Server" />,
-	document.getElementById("app")
+	document.getElementById("app"),
 );

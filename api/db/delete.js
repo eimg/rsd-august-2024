@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-    // await prisma.post.delete({
+	// await prisma.post.delete({
 	// 	where: { userId: 1 },
 	// });
 

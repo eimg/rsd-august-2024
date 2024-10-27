@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 
 type MovieType = {
-    id: number;
+	id: number;
 	title: string;
 	poster_path: string;
 	release_date: string;
@@ -11,12 +11,14 @@ type MovieType = {
 
 export default function Movie({ movie }: { movie: MovieType }) {
 	const images = "http://image.tmdb.org/t/p/w185";
-    const router = useRouter();
+	const router = useRouter();
 
 	return (
-		<div className="flex flex-col justify-center text-center mb-2 basis-1/5 hover:scale-105 transition-all cursor-pointer" onClick={() => {
-            router.push(`/movie/${movie.id}`);
-        }}>
+		<div
+			className="flex flex-col justify-center text-center mb-2 basis-1/5 hover:scale-105 transition-all cursor-pointer"
+			onClick={() => {
+				router.push(`/movie/${movie.id}`);
+			}}>
 			<img
 				src={images + movie.poster_path}
 				alt="Poster"

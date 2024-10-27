@@ -1,7 +1,7 @@
 import { useState, createContext, useContext, useMemo, useEffect } from "react";
 
 import {
-    Container,
+	Container,
 	CssBaseline,
 	ThemeProvider,
 	createTheme,
@@ -25,25 +25,25 @@ export default function ThemedApp() {
 	const [showForm, setShowForm] = useState(false);
 	const [mode, setMode] = useState("dark");
 
-    const [auth, setAuth] = useState(false);
-    const [authUser, setAuthUser] = useState({});
+	const [auth, setAuth] = useState(false);
+	const [authUser, setAuthUser] = useState({});
 
-    useEffect(() => {
-        // httpOnly cookie
-        const token = localStorage.getItem("token");
+	useEffect(() => {
+		// httpOnly cookie
+		const token = localStorage.getItem("token");
 
-        fetch("http://localhost:8080/verify", {
+		fetch("http://localhost:8080/verify", {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		}).then(async res => {
-            if(res.ok) {
-                const user = await res.json();
+			if (res.ok) {
+				const user = await res.json();
 				setAuth(true);
 				setAuthUser(user);
-            }
-        });
-    }, []);
+			}
+		});
+	}, []);
 
 	const theme = useMemo(() => {
 		return createTheme({
@@ -68,14 +68,16 @@ export default function ThemedApp() {
 					setShowForm,
 					mode,
 					setMode,
-                    auth,
-                    setAuth,
-                    authUser,
-                    setAuthUser,
+					auth,
+					setAuth,
+					authUser,
+					setAuthUser,
 				}}>
 				<Header />
 
-				<Container maxWidth="sm" sx={{ mt: 4 }}>
+				<Container
+					maxWidth="sm"
+					sx={{ mt: 4 }}>
 					<Outlet />
 				</Container>
 

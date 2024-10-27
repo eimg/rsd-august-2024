@@ -5,8 +5,8 @@ async function main() {
 	await prisma.todo.createMany({
 		data: [
 			{ name: "Milk" },
-			{ name: "Bread"},
-			{ name: "Apple"},
+			{ name: "Bread" },
+			{ name: "Apple" },
 			{ name: "Egg", done: true },
 			{ name: "Butter", done: true },
 		],
